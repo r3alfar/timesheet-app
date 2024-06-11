@@ -9,7 +9,7 @@ export default function NavBar() {
   return (
     <Navbar key="main">
       <NavbarBrand>
-        <Link href='/' className={`${oswald.className} text-2xl md:text-4xl font-semibold`}>
+        <Link href='/' className={`${oswald.className} text-2xl md:text-4xl font-semibold dark:font-blue`}>
           timesheet
         </Link>
       </NavbarBrand>
@@ -35,7 +35,7 @@ export default function NavBar() {
           <ThemeSwitcher />
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button as={Link} color="success" href="#" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>

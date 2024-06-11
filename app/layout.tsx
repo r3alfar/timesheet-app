@@ -4,6 +4,7 @@ import "./globals.css";
 import { NextUIProvider } from "@nextui-org/react";
 import NavBar from "@/components/Navbar";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           <NextUIProvider>
             <NavBar />
             {children}
+            <Toaster />
           </NextUIProvider>
         </NextThemesProvider>
 
