@@ -20,8 +20,8 @@ export function ThemeSwitcher() {
       <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
         {
           theme === 'dark' ?
-            <PiSunDimBold className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            : <PiMoonStarsBold className="h-[1.2rem] w-[1.2rem] scale-100 transition-all dark:rotate-0 dark:scale-100" />
+            <PiSunDimBold style={{ color: "white" }} className="scale-100 h-[1.2rem] w-[1.2rem]" />
+            : <PiMoonStarsBold className="h-[1.2rem] w-[1.2rem] scale-100 transition-all dark:rotate-0 dark:scale-100 " />
         }
 
 

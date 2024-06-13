@@ -25,7 +25,8 @@ export default function RootLayout({
 
       <body className={inter.className}>
 
-        <NextThemesProvider>
+        <NextThemesProvider
+          attribute="class">
           <NextUIProvider>
             <NavBar />
             {children}

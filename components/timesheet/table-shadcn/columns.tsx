@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
+import DialogShadcn from "./DialogShadcn"
+import { TrashIcon } from "@radix-ui/react-icons"
 
 export type Kegiatan = {
   id: number,
@@ -161,4 +163,29 @@ export const columns: ColumnDef<Kegiatan>[] = [
       return <div>{row.getValue("durasi")}</div>
     }
   },
+  {
+    id: 'actions',
+    header: () => <div className="text-center">Aksi</div>,
+    cell: ({ row }) => {
+      // console.log(row, null, 2)
+
+      return (
+        <div className='flex sm:justify-end'>
+          <div className='flex justify-end space-x-2'>
+            <div className='grid flex-1 gap-2'>
+              <DialogShadcn data={row.original} />
+            </div>
+            <Button variant='destructive'><TrashIcon /></Button>
+            {/* <Button ><TrashIcon /></Button> */}
+            {/* <RowDeleteButton id={row.original.id} /> */}
+          </div>
+
+        </div>
+
+
+
+
+      )
+    }
+  }
 ]

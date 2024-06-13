@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -12,19 +11,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -34,11 +23,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Kegiatan, columns } from './columns'
-import ModalTambah from './ModalTambah'
+import { Kegiatan, ProyekSelect, columns } from './columns'
+import DialogShadcn from './DialogShadcn'
 
 
-function TableShadcn({ data }: { data: Kegiatan[] }) {
+function TableShadcn({ data, proyek }: { data: Kegiatan[], proyek?: ProyekSelect[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -79,7 +68,8 @@ function TableShadcn({ data }: { data: Kegiatan[] }) {
             }
             className="max-w-[250px]"
           />
-          <ModalTambah />
+          {/* <ModalTambah /> */}
+          <DialogShadcn />
         </div>
 
         <div>

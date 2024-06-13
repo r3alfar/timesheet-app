@@ -1,12 +1,10 @@
 "use client"
-import { Tab, Tabs, select } from '@nextui-org/react'
-// import React, { useState } from 'react'
-import DaftarKegiatan from './DaftarKegiatan'
+import { Tab, Tabs } from '@nextui-org/react'
 import { Pengaturan } from './Pengaturan'
-import { Kegiatan } from './table/columns'
-import TabelKegiatan from './table/TabelKegiatan'
+import { Kegiatan } from './table-shadcn/columns'
 import TableShadcn from './table-shadcn/TableShadcn'
 import { Label } from '../ui/label'
+import { ProyekSelect } from './table-shadcn/columns'
 
 function formattedMenuTab(tab: any) {
   return tab
@@ -16,7 +14,7 @@ function formattedMenuTab(tab: any) {
     .join(' ')
 }
 
-export default function Timesheet({ data, profil }: { data: Kegiatan[], profil: Pengaturan[] }) {
+export default function Timesheet({ data, profil, proyek }: { data: Kegiatan[], profil: Pengaturan[], proyek?: ProyekSelect[] }) {
 
   const tabList = [
     "daftar_kegiatan",

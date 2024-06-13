@@ -1,7 +1,6 @@
 import { Pengaturan } from "@/components/timesheet/Pengaturan";
 import Timesheet from "@/components/timesheet/Timesheet";
-import { ProyekSelect } from "@/components/timesheet/table-shadcn/columns";
-import { Kegiatan } from "@/components/timesheet/table/columns";
+import { Kegiatan } from "@/components/timesheet/table-shadcn/columns";
 
 async function getKegiatans(): Promise<Kegiatan[]> {
   const res = await fetch('http://localhost:3000/api/kegiatan', {
@@ -21,10 +20,8 @@ async function getProfile(): Promise<Pengaturan[]> {
   return data.data
 }
 
-// async function getProyeks(): Promise<ProyekSelect[]> {
-//   const res = await fetch('http://localhost:3000/api/pengaturan', {
-//     method: "GET"
-//   })
+// async function getProyek(): Promise<ProyekSelect[]> {
+//   const res = await fetch('http://localhost:3000/api/proyek', { method: "GET" })
 
 //   const data = await res.json()
 //   return data.data
