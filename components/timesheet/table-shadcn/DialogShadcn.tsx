@@ -106,7 +106,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
   useEffect(() => {
 
     async function getProyek() {
-      const res = await fetch('http://localhost:3000/api/proyek', { method: "GET" })
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/proyek`, { method: "GET" })
 
       const data = await res.json()
       setProyeks(data.data)

@@ -3,7 +3,7 @@ import Timesheet from "@/components/timesheet/Timesheet";
 import { Kegiatan } from "@/components/timesheet/table-shadcn/columns";
 
 async function getKegiatans(): Promise<Kegiatan[]> {
-  const res = await fetch('http://localhost:3000/api/kegiatan', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/kegiatan`, {
     method: "GET"
   })
 
@@ -12,7 +12,7 @@ async function getKegiatans(): Promise<Kegiatan[]> {
 }
 
 async function getProfile(): Promise<Pengaturan[]> {
-  const res = await fetch('http://localhost:3000/api/pengaturan', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/pengaturan`, {
     method: "GET"
   })
 
@@ -30,6 +30,7 @@ async function getProfile(): Promise<Pengaturan[]> {
 export default async function Home() {
   const kegiatans = await getKegiatans();
   const profil = await getProfile();
+  // console.log("ROUTE: ", process.env.NEXT_PUBLIC_API_ROUTE)
   return (
     <main className="min-h-screen ">
       <div className="grid grid-rows-1 mt-4 px-6">
