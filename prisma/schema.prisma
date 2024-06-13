@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model kegiatan {
+  id              Int     @id @default(autoincrement())
+  judul           String? @db.VarChar(255)
+  start_date      String? @db.VarChar(255)
+  end_date        String? @db.VarChar(255)
+  start_time      String? @db.VarChar(255)
+  end_time        String? @db.VarChar(255)
+  durasi          String? @db.VarChar(255)
+  project_name_id Int?
+  proyek          proyek? @relation(fields: [project_name_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model pengaturan {
+  id       Int     @id @default(autoincrement())
+  username String? @db.VarChar(255)
+  rate     Int?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model pets {
+  name  String? @db.VarChar(255)
+  owner String? @db.VarChar(255)
+
+  @@ignore
+}
+
+model proyek {
+  id          Int        @id @default(autoincrement())
+  nama_proyek String?    @db.VarChar(255)
+  kegiatan    kegiatan[]
+}

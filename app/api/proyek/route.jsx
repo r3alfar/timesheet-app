@@ -1,5 +1,8 @@
+import { PrismaClient } from '@prisma/client';
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
+
+const prisma = new PrismaClient()
 
 export async function POST(request) {
   const r = await request.json()
@@ -47,17 +50,26 @@ export async function POST(request) {
 
 }
 
+// export async function GET() {
+//   try {
+//     const pengaturans = await sql`
+//     SELECT * FROM proyek
+//     ;`;
+//     const data = pengaturans.rows;
+//     return NextResponse.json({ data }, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json({ error }, { status: 500 })
+//   }
+
+// }
+
 export async function GET() {
   try {
-    const pengaturans = await sql`
-    SELECT * FROM proyek
-    ;`;
-    const data = pengaturans.rows;
+    const data = await prisma.proyek.findMany();
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 })
   }
-
 }
 
 // export async function DELETE(request: Request) {

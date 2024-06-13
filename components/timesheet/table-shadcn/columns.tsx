@@ -17,6 +17,17 @@ export type Kegiatan = {
 
 export type KegiatanRaw = {
   id: number,
+  judul: string | null,
+  start_date: string | null,
+  end_date: string | null,
+  start_time: string | null,
+  end_time: string | null,
+  durasi: string | null,
+  proyek: ProyekSelect | null,
+}
+
+export type KegiatanOld = {
+  id: number,
   judul: string,
   project_name_id: number,
   start_date: string,
@@ -28,7 +39,7 @@ export type KegiatanRaw = {
 
 export type ProyekSelect = {
   id: number,
-  nama_proyek: string,
+  nama_proyek: string | null,
 }
 
 const formatDate = (value: string) => {

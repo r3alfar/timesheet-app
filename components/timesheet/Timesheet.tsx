@@ -1,7 +1,7 @@
 "use client"
 import { Tab, Tabs } from '@nextui-org/react'
 import { Pengaturan } from './Pengaturan'
-import { Kegiatan } from './table-shadcn/columns'
+import { Kegiatan, KegiatanRaw } from './table-shadcn/columns'
 import TableShadcn from './table-shadcn/TableShadcn'
 import { Label } from '../ui/label'
 import { ProyekSelect } from './table-shadcn/columns'
@@ -14,12 +14,24 @@ function formattedMenuTab(tab: any) {
     .join(' ')
 }
 
-export default function Timesheet({ data, profil, proyek }: { data: Kegiatan[], profil: Pengaturan[], proyek?: ProyekSelect[] }) {
+export default function Timesheet({ data, profil }: { data: KegiatanRaw[], profil: Pengaturan[] }) {
 
-  const tabList = [
-    "daftar_kegiatan",
-    "pengaturan"
-  ]
+  //MANIPULATE data KEGIATAN to get precide header
+  const kegiatanArray: Kegiatan[] = data.map((d) => ({
+    id: d.id,
+    judul: d.judul ?? '',
+    project_name: d.proyek?.nama_proyek ?? '',
+    start_date: d.start_date ?? '',
+    end_date: d.end_date ?? '',
+    start_time: d.start_time ?? '',
+    end_time: d.end_time ?? '',
+    durasi: d.durasi ?? ''
+  }))
+
+  // const tabList = [
+  //   "daftar_kegiatan",
+  //   "pengaturan"
+  // ]
   // const [selectedTab, setSelectedTab] = useState('daftar_kegiatan')
   return (
     <>
@@ -46,7 +58,7 @@ export default function Timesheet({ data, profil, proyek }: { data: Kegiatan[], 
           <div className='flex items-center mt-4'>
             <h1 className='pt-4 font-bold w-[150px]'>Daftar Kegiatan</h1>
           </div>
-          <TableShadcn data={data} />
+          <TableShadcn data={kegiatanArray} />
         </Tab>
         <Tab key="pengaturan" title="Pengaturan">
           {/* <Pengaturan /> */}

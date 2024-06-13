@@ -111,9 +111,26 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
       const data = await res.json()
       setProyeks(data.data)
     }
+
+    // async function getProyek(): Promise<ProyekSelect[]> {
+    //   try {
+    //     const proyeks = await getAllProyek()
+    //     setProyeks(proyeks);
+    //     return proyeks
+    //   } catch (error) {
+    //     console.log("ERRRO: ", JSON.stringify(error, null, 2));
+    //     throw (error)
+    //   }
+    // }
+
+
     if (openz && proyeks.length < 1) {
       console.log("fetched data")
-      getProyek()
+      try {
+        getProyek()
+      } catch (error) {
+        console.log("ERROR: ", error)
+      }
     }
   }, [openz, proyeks])
 
@@ -275,7 +292,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
                           </SelectLabel>
                           {
                             proyeks?.map((item, index) => (
-                              <SelectItem key={item.id} value={item.nama_proyek}>{item.nama_proyek}</SelectItem>
+                              <SelectItem key={item.id} value={item?.nama_proyek ?? ''}>{item.nama_proyek}</SelectItem>
                             ))
                           }
                           {/* <SelectItem key="coba1" value='coba1'>Coba 1</SelectItem>

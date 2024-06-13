@@ -2,8 +2,8 @@ import React from 'react'
 
 export type Pengaturan = {
   id: number,
-  username: string,
-  rate: number
+  username: string | null,
+  rate: number | null
 }
 
 function Pengaturan() {
