@@ -61,7 +61,7 @@ function DeleteButton({ kegiatanId }: { kegiatanId: number }) {
               </Button>
 
             </DialogClose>
-            <Button type='submit' variant='destructive' onClick={() => handleDelete(kegiatanId)}>
+            <Button type="submit" variant="destructive" onClick={() => handleDelete(kegiatanId)}>
               Delete
             </Button>
           </DialogFooter>
