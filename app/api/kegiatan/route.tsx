@@ -23,26 +23,8 @@ export async function POST(request: Request) {
     const kegiatans = await prisma.kegiatan.create({ data: kegiatan })
     return NextResponse.json(kegiatans, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 }); return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
-
-  // try {
-  //   await sql`INSERT INTO Kegiatan (judul, project_name_id, start_date, end_date, start_time, end_time, durasi) 
-  //     VALUES (
-  //       ${kegiatan.judul}, 
-  //       ${kegiatan.project_name_id},
-  //       ${kegiatan.start_date},
-  //       ${kegiatan.end_date},
-  //       ${kegiatan.start_time},
-  //       ${kegiatan.end_time},
-  //       ${kegiatan.durasi}
-  //     );`;
-  // } catch (error) {
-  //   return NextResponse.json({ error }, { status: 500 });
-  // }
-
-  // const kegiatans = await sql`SELECT * FROM Kegiatan;`;
-  // return NextResponse.json({ kegiatans }, { status: 200 });
 }
 
 export async function GET() {
@@ -60,20 +42,6 @@ export async function GET() {
   }
 
 }
-
-// export async function DELETE(request: Request) {
-//   const { searchParams } = new URL(request.url);
-//   const kid = searchParams.get('id');
-//   try {
-//     const response = await sql`
-//       DELETE FROM kegiatan
-//       WHERE id = ${kid}
-//     `
-//     return NextResponse.json({ response }, { status: 200 })
-//   } catch (error) {
-//     return NextResponse.json({ error }, { status: 500 })
-//   }
-// }
 
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -109,3 +77,39 @@ function calculateDuration(start_time: string, end_time: string) {
 
   return (hours <= 9 ? "0" : "") + hours + ":" + (minutes <= 9 ? "0" : "") + minutes;
 }
+
+
+
+// SQL MANUAL QUERY
+// export async function DELETE(request: Request) {
+//   const { searchParams } = new URL(request.url);
+//   const kid = searchParams.get('id');
+//   try {
+//     const response = await sql`
+//       DELETE FROM kegiatan
+//       WHERE id = ${kid}
+//     `
+//     return NextResponse.json({ response }, { status: 200 })
+//   } catch (error) {
+//     return NextResponse.json({ error }, { status: 500 })
+//   }
+// }
+
+  // try {
+  //   await sql`INSERT INTO Kegiatan (judul, project_name_id, start_date, end_date, start_time, end_time, durasi) 
+  //     VALUES (
+  //       ${kegiatan.judul}, 
+  //       ${kegiatan.project_name_id},
+  //       ${kegiatan.start_date},
+  //       ${kegiatan.end_date},
+  //       ${kegiatan.start_time},
+  //       ${kegiatan.end_time},
+  //       ${kegiatan.durasi}
+  //     );`;
+  // } catch (error) {
+  //   return NextResponse.json({ error }, { status: 500 });
+  // }
+
+  // const kegiatans = await sql`SELECT * FROM Kegiatan;`;
+  // return NextResponse.json({ kegiatans }, { status: 200 });
+
