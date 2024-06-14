@@ -17,16 +17,16 @@ function formattedMenuTab(tab: any) {
 export default function Timesheet({ data, profil }: { data: KegiatanRaw[], profil: Pengaturan[] }) {
 
   //MANIPULATE data KEGIATAN to get precide header
-  const kegiatanArray: Kegiatan[] = data.map((d) => ({
-    id: d.id,
-    judul: d.judul ?? '',
-    project_name: d.proyek?.nama_proyek ?? '',
-    start_date: d.start_date ?? '',
-    end_date: d.end_date ?? '',
-    start_time: d.start_time ?? '',
-    end_time: d.end_time ?? '',
-    durasi: d.durasi ?? ''
-  }))
+  // const kegiatanArray: Kegiatan[] = data.map((d) => ({
+  //   id: d.id,
+  //   judul: d.judul ?? '',
+  //   project_name: d.proyek?.nama_proyek ?? '',
+  //   start_date: d.start_date ?? '',
+  //   end_date: d.end_date ?? '',
+  //   start_time: d.start_time ?? '',
+  //   end_time: d.end_time ?? '',
+  //   durasi: d.durasi ?? ''
+  // }))
 
   // const tabList = [
   //   "daftar_kegiatan",
@@ -58,7 +58,7 @@ export default function Timesheet({ data, profil }: { data: KegiatanRaw[], profi
           <div className='flex items-center mt-4'>
             <h1 className='pt-4 font-bold w-[150px]'>Daftar Kegiatan</h1>
           </div>
-          <TableShadcn data={kegiatanArray} />
+          <TableShadcn data={data} />
         </Tab>
         <Tab key="pengaturan" title="Pengaturan">
           {/* <Pengaturan /> */}

@@ -1,8 +1,7 @@
-import { Pengaturan } from "@/components/timesheet/Pengaturan";
+// import { Pengaturan } from "@/components/timesheet/Pengaturan";
 import Timesheet from "@/components/timesheet/Timesheet";
-import { Kegiatan, KegiatanRaw, ProyekSelect } from "@/components/timesheet/table-shadcn/columns";
+// import { Kegiatan, KegiatanRaw, ProyekSelect } from "@/components/timesheet/table-shadcn/columns";
 import { getAllKegiatan, getProfile } from "@/lib/prisma";
-import { PrismaClient } from "@prisma/client";
 // import { sql } from '@vercel/postgres';
 // import { NextResponse } from "next/server";
 
@@ -73,8 +72,10 @@ export default async function Home() {
   // const kegiatans = await getKegiatans();
   // const profil = await getProfile();
   // const project = await getProyek();
-  const kegiatans = await getAllKegiatan()
-  const profil = await getProfile()
+  // const kegiatans = await getAllKegiatan()
+  // const profil = await getProfile()
+
+  const [kegiatans, profil] = await Promise.all([getAllKegiatan(), getProfile()])
 
   // console.log("PROJECT: ", project)
   // console.log("KEGIATANS: ", kegiatans);

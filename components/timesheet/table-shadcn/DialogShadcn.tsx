@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { useToast } from "@/components/ui/use-toast"
-import { Kegiatan, ProyekSelect } from './columns';
+import { Kegiatan, KegiatanRaw, ProyekSelect } from './columns';
 import { Input } from '@/components/ui/input';
 import { Time, parseTime } from '@internationalized/date'
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -23,7 +23,7 @@ import { TimeInput } from '@nextui-org/react';
 
 const formSchema = z.object({
   judul: z.string(),
-  project_name: z.string(),
+  project_name: z.any(),
   tanggal_pengerjaan: z.any(),
   start_time: z.any(),
   end_time: z.any(),
@@ -31,7 +31,7 @@ const formSchema = z.object({
 })
 
 
-function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect[] }) {
+function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSelect[] }) {
   const { toast } = useToast();
   const [openz, setOpenz] = useState(false);
   // const [date, setDate] = useState<DateRange | undefined>({
@@ -44,7 +44,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
     resolver: zodResolver(formSchema),
     defaultValues: {
       judul: data?.judul ?? '',
-      project_name: data?.project_name ?? '',
+      project_name: data?.proyek?.id ?? '',
       tanggal_pengerjaan: data?.end_date && data?.start_date ? {
         from: new Date(data.start_date),
         to: new Date(data.end_date)
@@ -81,6 +81,9 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
       values.end_time = values.end_time.toString();
     }
 
+    //construct request
+
+
     // console.log("RAW data: ", data)
     console.log("CLICKED SUBMIT")
     console.log(JSON.stringify(values, null, 2))
@@ -93,6 +96,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
       ),
     });
     form.reset();
+    setOpenz(false);
 
 
 
@@ -100,6 +104,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
 
   function onTambah() {
     console.log("button tambah proyek clicked")
+    console.log(data)
   }
 
 
@@ -279,7 +284,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
                   <FormLabel>Nama Proyek</FormLabel>
 
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value} >
+                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
 
                       <SelectTrigger className="w-[280px]">
                         <SelectValue placeholder="Pilih Tipe" />
@@ -292,7 +297,7 @@ function DialogShadcn({ data, proyek }: { data?: Kegiatan, proyek?: ProyekSelect
                           </SelectLabel>
                           {
                             proyeks?.map((item, index) => (
-                              <SelectItem key={item.id} value={item?.nama_proyek ?? ''}>{item.nama_proyek}</SelectItem>
+                              <SelectItem key={item.id} value={item?.id.toString() ?? ''}>{item.nama_proyek}</SelectItem>
                             ))
                           }
                           {/* <SelectItem key="coba1" value='coba1'>Coba 1</SelectItem>

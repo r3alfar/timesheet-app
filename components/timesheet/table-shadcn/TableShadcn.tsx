@@ -23,11 +23,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Kegiatan, ProyekSelect, columns } from './columns'
+import { Kegiatan, KegiatanRaw, ProyekSelect, columns } from './columns'
 import DialogShadcn from './DialogShadcn'
 
 
-function TableShadcn({ data, proyek }: { data: Kegiatan[], proyek?: ProyekSelect[] }) {
+function TableShadcn({ data, proyek }: { data: KegiatanRaw[], proyek?: ProyekSelect[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -35,6 +35,7 @@ function TableShadcn({ data, proyek }: { data: Kegiatan[], proyek?: ProyekSelect
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
 
   const table = useReactTable({
     data,

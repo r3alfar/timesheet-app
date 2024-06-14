@@ -1,5 +1,8 @@
+import { PrismaClient } from '@prisma/client';
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
+
+const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
   const r = await request.json()
@@ -17,22 +20,29 @@ export async function POST(request: Request) {
   }
 
   try {
-    await sql`INSERT INTO Kegiatan (judul, project_name_id, start_date, end_date, start_time, end_time, durasi) 
-      VALUES (
-        ${kegiatan.judul}, 
-        ${kegiatan.project_name_id},
-        ${kegiatan.start_date},
-        ${kegiatan.end_date},
-        ${kegiatan.start_time},
-        ${kegiatan.end_time},
-        ${kegiatan.durasi}
-      );`;
+    const kegiatans = await prisma.kegiatan.create({ data: kegiatan })
+    return NextResponse.json(kegiatans, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 }); return NextResponse.json({ error }, { status: 500 });
   }
 
-  const kegiatans = await sql`SELECT * FROM Kegiatan;`;
-  return NextResponse.json({ kegiatans }, { status: 200 });
+  // try {
+  //   await sql`INSERT INTO Kegiatan (judul, project_name_id, start_date, end_date, start_time, end_time, durasi) 
+  //     VALUES (
+  //       ${kegiatan.judul}, 
+  //       ${kegiatan.project_name_id},
+  //       ${kegiatan.start_date},
+  //       ${kegiatan.end_date},
+  //       ${kegiatan.start_time},
+  //       ${kegiatan.end_time},
+  //       ${kegiatan.durasi}
+  //     );`;
+  // } catch (error) {
+  //   return NextResponse.json({ error }, { status: 500 });
+  // }
+
+  // const kegiatans = await sql`SELECT * FROM Kegiatan;`;
+  // return NextResponse.json({ kegiatans }, { status: 200 });
 }
 
 export async function GET() {
@@ -51,19 +61,36 @@ export async function GET() {
 
 }
 
+// export async function DELETE(request: Request) {
+//   const { searchParams } = new URL(request.url);
+//   const kid = searchParams.get('id');
+//   try {
+//     const response = await sql`
+//       DELETE FROM kegiatan
+//       WHERE id = ${kid}
+//     `
+//     return NextResponse.json({ response }, { status: 200 })
+//   } catch (error) {
+//     return NextResponse.json({ error }, { status: 500 })
+//   }
+// }
+
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
   const kid = searchParams.get('id');
   try {
-    const response = await sql`
-      DELETE FROM kegiatan
-      WHERE id = ${kid}
-    `
-    return NextResponse.json({ response }, { status: 200 })
+    const data = await prisma.kegiatan.delete({
+      where: {
+        id: kid ? parseInt(kid) : 0
+      }
+    })
+    return NextResponse.json({ data }, { status: 200 })
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 })
   }
 }
+
+
 
 function calculateDuration(start_time: string, end_time: string) {
 

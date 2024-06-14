@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import DialogShadcn from "./DialogShadcn"
-import { TrashIcon } from "@radix-ui/react-icons"
+import DeleteButton from "./DeleteButton"
 
 export type Kegiatan = {
   id: number,
@@ -54,7 +54,7 @@ const formatDate = (value: string) => {
   return readableDate
 }
 
-export const columns: ColumnDef<Kegiatan>[] = [
+export const columns: ColumnDef<KegiatanRaw>[] = [
   {
     accessorKey: 'judul',
     header: ({ column }) => {
@@ -71,7 +71,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
     cell: ({ row }) => <div>{row.getValue("judul")}</div>
   },
   {
-    accessorKey: 'project_name',
+    accessorKey: 'proyek.nama_proyek',
     header: ({ column }) => {
       return (
         <Button
@@ -83,7 +83,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div>{row.getValue("project_name")}</div>
+    cell: ({ row }) => <div>{row.original.proyek?.nama_proyek}</div>
   },
   {
     accessorKey: 'start_date',
@@ -186,8 +186,8 @@ export const columns: ColumnDef<Kegiatan>[] = [
             <div className='grid flex-1 gap-2'>
               <DialogShadcn data={row.original} />
             </div>
-            <Button variant='destructive'><TrashIcon /></Button>
-            {/* <Button ><TrashIcon /></Button> */}
+            {/* <Button variant='destructive'><TrashIcon /></Button> */}
+            <DeleteButton kegiatanId={row.original.id} />
             {/* <RowDeleteButton id={row.original.id} /> */}
           </div>
 
