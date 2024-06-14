@@ -50,7 +50,7 @@ function DeleteButton({ kegiatanId }: { kegiatanId: number }) {
           <DialogHeader>
             <DialogTitle>Delete Data</DialogTitle>
             <DialogDescription>
-              Are you sure to delete data? data can't be retrieved back
+              Are you sure to delete data? data cant be retrieved back
             </DialogDescription>
           </DialogHeader>
 
