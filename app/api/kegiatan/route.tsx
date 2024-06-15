@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   }
   const kegiatan = {
     judul: r.judul,
-    project_name_id: r.projectName_id,
+    project_name_id: r.project_name_id,
     start_date: r.start_date,
     end_date: r.end_date,
     start_time: r.start_time,
@@ -49,12 +49,41 @@ export async function DELETE(request: Request) {
   try {
     const data = await prisma.kegiatan.delete({
       where: {
-        id: kid ? parseInt(kid) : 0
+        id: kid ? parseInt(kid) : undefined
       }
     })
     return NextResponse.json({ data }, { status: 200 })
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 })
+  }
+}
+
+export async function PATCH(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const kid = searchParams.get('id');
+  const r = await request.json()
+  if (!r) {
+    return NextResponse.json("kurang sesuatu", { status: 500 });
+  }
+
+  try {
+    const kegiatans = await prisma.kegiatan.update({
+      where: {
+        id: kid ? parseInt(kid) : undefined
+      },
+      data: {
+        judul: r.judul,
+        project_name_id: r.project_name_id,
+        start_date: r.start_date,
+        end_date: r.end_date,
+        start_time: r.start_time,
+        end_time: r.end_time,
+        durasi: calculateDuration(r.start_time, r.end_time)
+      }
+    })
+    return NextResponse.json(kegiatans, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 

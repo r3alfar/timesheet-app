@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { TimeInput } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 // import { Select as SelectNext, SelectItem as SelectItemNext, TimeInput } from "@nextui-org/react";
 
 const formSchema = z.object({
@@ -33,6 +34,7 @@ const formSchema = z.object({
 
 function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSelect[] }) {
   const { toast } = useToast();
+  const router = useRouter();
   const [openz, setOpenz] = useState(false);
   // const [date, setDate] = useState<DateRange | undefined>({
   //   from: new Date(2022, 0, 20),
@@ -63,30 +65,60 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    // if (values && values.tanggal_pengerjaan) {
-    //   console.log("convert datae: ", values.tanggal_pengerjaan.toString())
-    // }
-
-    //manipulate kalender
-    // if (values && (values.tanggal_pengerjaan)) {
-    //   let tgl = []
-    //   tgl.push(values.tanggal_pengerjaan.start.toString())
-    //   tgl.push(values.tanggal_pengerjaan.end.toString())
-    //   values.tanggal_pengerjaan = JSON.stringify(tgl)
-    // }
-
     //manipuilate time value to string
     if (values && (values.start_time || values.end_time)) {
-      values.start_time = values.start_time.toString();
-      values.end_time = values.end_time.toString();
+      values.start_time = values.start_time.toString().slice(0, -3);
+      values.end_time = values.end_time.toString().slice(0, -3);
     }
 
     //construct request
+    const req = {
+      judul: values.judul,
+      project_name_id: parseInt(values.project_name),
+      start_date: values.tanggal_pengerjaan.from,
+      end_date: values.tanggal_pengerjaan.to,
+      start_time: values.start_time,
+      end_time: values.end_time
+    }
+
+    // setIsLoading(true);
+    if (data && data != null) {
+      //UPDATE DATA
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/kegiatan?id=${data?.id}`, { method: "PATCH", body: JSON.stringify(req) })
+      }
+      catch (error) {
+        toast({
+          title: "Failed to submit (UPDATE)",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{JSON.stringify(error, null, 2)}</code>
+            </pre>
+          ),
+        });
+      }
+    } else {
+      //CREATE BARU
+      try {
+        await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/kegiatan`, { method: "POST", body: JSON.stringify(req) })
+      } catch (error) {
+        toast({
+          title: "Failed to submit (UPDATE)",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{JSON.stringify(error, null, 2)}</code>
+            </pre>
+          ),
+        });
+      }
+    }
 
 
+
+    // setIsLoading(false);
     // console.log("RAW data: ", data)
-    console.log("CLICKED SUBMIT")
-    console.log(JSON.stringify(values, null, 2))
+    // console.log("CLICKED SUBMIT")
+    // console.log(JSON.stringify(req, null, 2))
     toast({
       title: "Submitted values",
       description: (
@@ -97,6 +129,7 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
     });
     form.reset();
     setOpenz(false);
+    router.refresh();
 
 
 
@@ -116,18 +149,6 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
       const data = await res.json()
       setProyeks(data.data)
     }
-
-    // async function getProyek(): Promise<ProyekSelect[]> {
-    //   try {
-    //     const proyeks = await getAllProyek()
-    //     setProyeks(proyeks);
-    //     return proyeks
-    //   } catch (error) {
-    //     console.log("ERRRO: ", JSON.stringify(error, null, 2));
-    //     throw (error)
-    //   }
-    // }
-
 
     if (openz && proyeks.length < 1) {
       console.log("fetched data")
