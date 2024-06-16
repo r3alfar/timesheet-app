@@ -12,7 +12,7 @@ import { Time, parseTime } from '@internationalized/date'
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SelectGroup } from '@radix-ui/react-select';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { TimeInput } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
+import DialogTambahTipez from './DialogTambahTipez';
 // import { Select as SelectNext, SelectItem as SelectItemNext, TimeInput } from "@nextui-org/react";
 
 const formSchema = z.object({
@@ -36,6 +37,10 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
   const { toast } = useToast();
   const router = useRouter();
   const [openz, setOpenz] = useState(false);
+  const [isNewProyek, setIsNewProyek] = useState<boolean>(false)
+  const getNewProyek = (isNewProyek: boolean) => {
+    setIsNewProyek(isNewProyek)
+  }
   // const [date, setDate] = useState<DateRange | undefined>({
   //   from: new Date(2022, 0, 20),
   //   to: addDays(new Date(2022, 0, 20), 20),
@@ -154,11 +159,22 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
       console.log("fetched data")
       try {
         getProyek()
+        setIsNewProyek(false);
       } catch (error) {
         console.log("ERROR: ", error)
       }
     }
-  }, [openz, proyeks])
+
+    if (isNewProyek === true) {
+      console.log("processing useEffect isNewProyek")
+      try {
+        getProyek()
+        setIsNewProyek(false);
+      } catch (error) {
+        console.log("ERROR: ", error)
+      }
+    }
+  }, [openz, proyeks, isNewProyek])
 
 
 
@@ -314,7 +330,7 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>
-                            <Button variant='link' onClick={onTambah}>Tambah Tipe Proyek</Button>
+                            <DialogTambahTipez onActiveStatusChange={getNewProyek} />
                           </SelectLabel>
                           {
                             proyeks?.map((item, index) => (
@@ -358,6 +374,9 @@ function DialogShadcn({ data, proyek }: { data?: KegiatanRaw, proyek?: ProyekSel
 
           </form>
         </Form>
+        {/* <DialogFooter>
+          <p>isNewProyekl: {isNewProyek ? "iya baru" : "ga ada yg baru"}</p>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   )

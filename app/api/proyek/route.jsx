@@ -10,42 +10,17 @@ export async function POST(request) {
     return NextResponse.json("kurang sesuatu", { status: 500 });
   }
 
-
-  let pengaturan
-  if (r && r.id) {
-    try {
-      await sql`UPDATE pengaturan
-        SET 
-          username= ${r.username},
-          rate = ${r.rate} 
-        WHERE
-          id = ${r.id}
-      ;`;
-    } catch (error) {
-      return NextResponse.json({ error }, { status: 500 });
-    }
-
-    const res = await sql`SELECT * FROM pengaturan;`;
-    return NextResponse.json({ res }, { status: 200 });
-  } else {
-    pengaturan = {
-      username: r.username,
-      rate: r.rate
-    }
-
-    try {
-      await sql`INSERT INTO pengaturan (username, rate) 
-        VALUES (
-          ${pengaturan.username}, 
-          ${pengaturan.rate}
-        );`;
-    } catch (error) {
-      return NextResponse.json({ error }, { status: 500 });
-    }
-
-    const res = await sql`SELECT * FROM pengaturan;`;
-    return NextResponse.json({ res }, { status: 200 });
+  const proyek = {
+    nama_proyek: r.nama_proyek
   }
+
+  try {
+    const upProyek = await prisma.proyek.create({ data: proyek })
+    return NextResponse.json(upProyek, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 })
+  }
+
 
 
 }
